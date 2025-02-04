@@ -1,13 +1,5 @@
-from sqlalchemy import Column, Integer, String, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-DATABASE_URL = "sqlite:///./test.db"
-
-Base = declarative_base()
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
+from sqlalchemy import Column, Integer, String
+from database import Base
 
 class User(Base):
     __tablename__ = "users"
@@ -15,7 +7,5 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     email = Column(String, unique=True, index=True)
-
-
-def init_db():
-    Base.metadata.create_all(bind=engine)
+    password = Column(String)
+    role = Column(String, default="user")
